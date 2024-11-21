@@ -1,8 +1,8 @@
 from bs4 import BeautifulSoup
-import matplotlib as plt
+import matplotlib.pyplot as plt
 import requests
 import pandas as pd
-#import numpy as np
+
 url = "http://www.pogodaiklimat.ru/history/27612.htm"
 headers = {
     'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
@@ -51,5 +51,14 @@ print(read_file)
 read_file.to_csv("ML_LR5.csv", index=True, header=True)
 read_csv = pd.DataFrame(pd.read_csv("ML_LR5.csv", index_col=0))
 print(read_csv)
-
-
+print(read_csv['янв'])
+# print(read_csv.columns[0])
+lineTypes = ['--', '-', '-.', ':']
+for i in range(0, 12, 3):
+    plt.plot(read_csv.index, read_csv[read_csv.columns[i]],
+             lineTypes[i//3], label=read_csv.columns[i])
+plt.title("График изменения средней температуры за месяц по годам")
+plt.xlabel("Год")
+plt.ylabel("Средняя температура")
+plt.legend()
+plt.show()
